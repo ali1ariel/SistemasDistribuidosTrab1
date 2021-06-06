@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -78,7 +80,19 @@ public class ChatClient {
                 } else if (line.startsWith("NAMEACCEPTED")) {
                     this.frame.setTitle("Chatter - " + line.substring(13));
                     textField.setEditable(true);
-                } else if (line.startsWith("MESSAGE")) {
+                } else if (line.startsWith("SYSTEM")) {
+
+                    messageArea.setFont(new Font("Serif", Font.ITALIC, 16));
+                    messageArea.setLineWrap(true);
+                    messageArea.setWrapStyleWord(true);
+                    messageArea.append(line.substring(7) + "\n");
+                }
+                
+                else if (line.startsWith("MESSAGE")) {
+
+                    messageArea.setFont(new Font("comic sans", Font.BOLD, 16));
+                    messageArea.setLineWrap(false);
+                    messageArea.setWrapStyleWord(false);
                     messageArea.append(line.substring(8) + "\n");
                 }
             }
