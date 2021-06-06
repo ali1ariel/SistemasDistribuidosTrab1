@@ -6,8 +6,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -36,6 +36,8 @@ public class ChatClient {
     JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(50);
     JTextArea messageArea = new JTextArea(16, 50);
+    JEditorPane fodase = new JEditorPane();
+
 
     /**
      * Constructs the client by laying out the GUI and registering a listener with
@@ -48,9 +50,11 @@ public class ChatClient {
         this.serverAddress = serverAddress;
 
         textField.setEditable(false);
-        messageArea.setEditable(false);
+        messageArea.setEditable(true);
+
         frame.getContentPane().add(textField, BorderLayout.SOUTH);
-        frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
+        fodase.setContentType("text/html");
+        frame.getContentPane().add(new JScrollPane(fodase), BorderLayout.CENTER);
         frame.pack();
 
         // Send on enter then clear to prepare for next message
@@ -81,19 +85,15 @@ public class ChatClient {
                     this.frame.setTitle("Chatter - " + line.substring(13));
                     textField.setEditable(true);
                 } else if (line.startsWith("SYSTEM")) {
-
-                    messageArea.setFont(new Font("Serif", Font.ITALIC, 16));
-                    messageArea.setLineWrap(true);
-                    messageArea.setWrapStyleWord(true);
-                    messageArea.append(line.substring(7) + "\n");
+                    var string = "<p style=\"color:red\"><b> <i>" + line.substring(7) + "</b> </i> </p>";
+                    var before = fodase.getText().substring(39, fodase.getText().length()-16);
+                    fodase.setText(before + string);
                 }
                 
                 else if (line.startsWith("MESSAGE")) {
-
-                    messageArea.setFont(new Font("comic sans", Font.BOLD, 16));
-                    messageArea.setLineWrap(false);
-                    messageArea.setWrapStyleWord(false);
-                    messageArea.append(line.substring(8) + "\n");
+                    var string = line.substring(8) + "<br/>";
+                    var before = fodase.getText().substring(39, fodase.getText().length()-16);
+                    fodase.setText(before + string);
                 }
             }
         } finally {
