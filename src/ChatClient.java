@@ -36,7 +36,7 @@ public class ChatClient {
     JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(50);
     JTextArea messageArea = new JTextArea(16, 50);
-    JEditorPane fodase = new JEditorPane();
+    JEditorPane editorPane = new JEditorPane();
 
 
     /**
@@ -53,8 +53,8 @@ public class ChatClient {
         messageArea.setEditable(true);
 
         frame.getContentPane().add(textField, BorderLayout.SOUTH);
-        fodase.setContentType("text/html");
-        frame.getContentPane().add(new JScrollPane(fodase), BorderLayout.CENTER);
+        editorPane.setContentType("text/html");
+        frame.getContentPane().add(new JScrollPane(editorPane), BorderLayout.CENTER);
         frame.pack();
 
         // Send on enter then clear to prepare for next message
@@ -86,14 +86,14 @@ public class ChatClient {
                     textField.setEditable(true);
                 } else if (line.startsWith("SYSTEM")) {
                     var string = "<p style=\"color:red\"><b> <i>" + line.substring(7) + "</b> </i> </p>";
-                    var before = fodase.getText().substring(39, fodase.getText().length()-16);
-                    fodase.setText(before + string);
+                    var before = editorPane.getText().substring(39, editorPane.getText().length()-16);
+                    editorPane.setText(before + string);
                 }
                 
                 else if (line.startsWith("MESSAGE")) {
                     var string = line.substring(8) + "<br/>";
-                    var before = fodase.getText().substring(39, fodase.getText().length()-16);
-                    fodase.setText(before + string);
+                    var before = editorPane.getText().substring(39, editorPane.getText().length()-16);
+                    editorPane.setText(before + string);
                 }
             }
         } finally {
